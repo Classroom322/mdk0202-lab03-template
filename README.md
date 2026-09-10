@@ -23,7 +23,7 @@
 
 4. Сделайте `Commit` и `Push` в ветку `dev`.
 
-5. Сделайте `Pull Request` из ветки `dev` в ветку `main` на сайте GitHub и проведите настойки, как на скрине. (в `assignees` выбирайте `yourself` или ищите себя руками)
+5. Сделайте `Pull Request` из ветки `dev` в ветку `main` на сайте GitHub и проведите настойки, как на скрине в правом углу. (в `assignees` выбирайте `yourself` или ищите себя руками)
 
 <img width="1306" height="915" alt="изображение" src="https://github.com/user-attachments/assets/09033070-eff3-4630-b5d9-21e7957c3c68" />
 
