@@ -1,0 +1,42 @@
+name: Проверка Практической Работы №3
+
+on: [push, pull_request]
+
+jobs:
+  run-student-code:
+    runs-on: windows-latest # GitHub Actions разворачивает настоящую чистую Windows-машину
+
+    steps:
+      - name: Шаг 1. Клонирование репозитория студента
+        uses: actions/checkout@v4
+
+      - name: Шаг 2. Физический запуск .bat скрипта студента
+        run: |
+          if (Test-Path "backup.bat") {
+              cmd.exe /c backup.bat
+          } else {
+              Write-Error "Критическая ошибка! Файл backup.bat отсутствует в корне репозитория."
+              exit 1
+          }
+        shell: powershell
+
+      - name: Шаг 3. Валидация результатов работы кода
+        run: |
+          # 1. Проверяем, создал ли скрипт студента папку archive
+          if (-not (Test-Path "archive")) {
+              Write-Error "Тест провален: Папка 'archive' не была создана вашим скриптом!"
+              exit 1
+          }
+          # 2. Проверяем, создался ли файл status.log
+          if (-not (Test-Path "archive/status.log")) {
+              Write-Error "Тест провален: Файл 'archive/status.log' не найден!"
+              exit 1
+          }
+          # 3. Проверяем содержимое файла на соответствие ТЗ
+          $fileContent = Get-Content "archive/status.log" -Raw
+          if ($fileContent -notmatch "Резервное копирование успешно завершено") {
+              Write-Error "Тест провален: Текст внутри 'status.log' не совпадает с ТЗ или файл пуст!"
+              exit 1
+          }
+          Write-Host "Поздравляем! Скрипт успешно прошел все тесты на сервере Windows."
+        shell: powershell
